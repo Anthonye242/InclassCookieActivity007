@@ -3,7 +3,7 @@ include 'includes/data.inc.php';
 include 'includes/art-functions.inc.php';
 
 // TODO: start session
-
+session_start();
 // is there an ID passed?
 $id = 406;
 if (isset($_GET['id'])) {
