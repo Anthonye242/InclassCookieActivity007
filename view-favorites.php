@@ -1,7 +1,8 @@
 <?php
+session_start();
 
-
-
+// Retrieve favorites from the session
+$favorites = isset($_SESSION['favorites']) ? $_SESSION['favorites'] : [];
 
 ?>
 
@@ -38,22 +39,29 @@
               <th>Action</th>
           </tr></thead>
           <tbody>
-              <?php 
-                /* // markup for sample favorite is as follows:
-                     <tr>
-                        <td><img src="images/art/square-medium/092040.jpg"></td>
-                        <td><a href="single-painting.php?id=369">Adoration in the Forest</a></td>
-                        <td><a class="ui small button" href="remove-favorites.php?id=369">Remove</a></td>
-                     </tr>
-                   // loop through all favorites and output a row for each one  
-                */
-              ?>
+                <?php foreach ($favorites as $favorite): ?>
+                  <tr>
+                      <td>
+                        <img src="images/art/square-medium/<?php echo htmlspecialchars($favorite['ImageFileName']); ?>.jpg" alt="<?php echo htmlspecialchars($favorite['Title']); ?>">
+                      </td>
+                      <td>
+                        <a href="single-painting.php?id=<?php echo htmlspecialchars($favorite['PaintingID']); ?>">
+                            <?php echo htmlspecialchars($favorite['Title']); ?>
+                        </a>
+                      </td>
+                      <td>
+                        <a class="ui small button" href="remove-favorites.php?PaintingID=<?php echo htmlspecialchars($favorite['PaintingID']); ?>">
+                            Remove
+                        </a>
+                      </td>
+                  </tr>
+              <?php endforeach; ?>
           </tbody>
           <tfoot class="full-width">
               <th colspan="3">
-                <a class="ui left floated small primary labeled icon button" href="remove-favorites.php">
-                  <i class="remove circle icon"></i> Remove All Favorites
-                </a>                  
+                <a class="ui left floated small primary labeled icon button" href="remove-favorites.php?clear=true">
+                    <i class="remove circle icon"></i> Remove All Favorites
+                </a>               
               </th>
           </tfoot>
          </table>
